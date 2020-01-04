@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  h1 Register System
+  form(method="POST" id="Register-box")
+    h2 用户注册
+    #input-bar
+      div
+        span.info-name 用户名:
+        input(name="username" value=user.username)
+        span.status
+      
+      div
+        span.info-name 密码:
+        input(type="password" name="userpassword" value=user.userpassword)
+        span.status
+            
+      div
+        span.info-name 重复密码:
+        input(type="password" name="userrepeat" value=user.userrepeat)
+        span.status
+            
+      div
+        span.info-name 学号:
+        input(name="userid" value=user.userid)
+        span.status
+      
+      div
+        span.info-name 电话:
+        input(name="usertel" value=user.usertel)
+        span.status 
+      
+      div
+        span.info-name 邮箱:
+        input(name="useremail" value=user.useremail)
+        span.status
+      
+    
+    #action
+      input.button.reset(id="clear" type="reset" value="清除")
+      input.button.submit(id="submit" type="submit" value="注册")
+    
+    if error
+      #error-bar
+        span !{error}
+
+  script(src="javascripts/validator.js" type="text/javascript")
+  script(src="javascripts/SignUp.js" type="text/javascript")
