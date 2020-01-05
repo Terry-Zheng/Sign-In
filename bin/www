@@ -19,7 +19,6 @@ mongo.connect(mongourl, {useUnifiedTopology: true}).catch(function(error){
    * Get port from environment and store in Express.
    */
   var port = normalizePort(process.env.PORT || '8000');
-  debug("port is :", port);
   app.set('port', port);
   
   /**

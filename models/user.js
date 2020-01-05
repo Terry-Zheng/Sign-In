@@ -9,10 +9,10 @@ module.exports = function(db){
 
   return {
     findUser: function(username, userpassword){
-      debug("The user to be search in the database is: ", username, "[", userpassword, "]");
+      // debug("The user to be search in the database is: ", username, "[", userpassword, "]");
       return users.findOne({username: username})
                   .then(function(user){
-                    debug("findUser...");
+                    // debug("findUser...");
                     return user ? bcrypt.compare(userpassword, user.userpassword)
                                         .then(function(result){
                                           return result ? user : null;
@@ -30,8 +30,7 @@ module.exports = function(db){
                    .then(function(hash){
                      debug("hash successfully!");
                      newUser.userpassword = hash;
-                     users.insertOne(newUser);
-                     return newUser;
+                     return users.insertOne(newUser);
                    });
     },
 
@@ -43,7 +42,7 @@ module.exports = function(db){
                           return users.findOne(getQuery(user))
                                       .then(function(duplicatedUser){
                                         if (duplicatedUser) {
-                                          debug("duplicateUser is: ", duplicatedUser);
+                                          // debug("duplicateUser is: ", duplicatedUser);
                                           return Promise.reject("user isn't unique!")
                                         } else {
                                           return Promise.resolve(user);
