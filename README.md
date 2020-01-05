@@ -39,14 +39,14 @@ Web作业11 Sign In
 3. 启动：使用cmd（非PowerShell）打开到signin文件夹路径下，使用下列命令启动服务器
 `````bash
 SET DEBUG=signin:* & npm start
-```
+`````
 
 	然后利用浏览器打开网址[http://localhost:8000](http://localhost:8000)，即可启动应用
 	
 4. 调试: 老师视频中所说的node-inspector因为电脑配置原因无法使用，因此添加了node-inspector包，具体调试方法与视频类似，应在signin文件夹下运行命令
 `````bash
 node --inspect-brk bin\www
-```
+`````
 
     然后再打开Google浏览器，打开网址[chrome://inspect/#devices](chrome://inspect/#devices) ，等待一会后点击www下方的inspect(如下图),同时可打开网址进行调试
     ![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
