@@ -48,6 +48,6 @@ node --inspect-brk bin\www
 `````
   然后再打开Google浏览器，打开网址[chrome://inspect/#devices](chrome://inspect/#devices) ，等待一会后点击www下方的inspect(如下图),同时可打开网址进行调试
   
-    ![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
+   ![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
     
 5. 注意：mongodb可能无法正常启动，应注意mongodb的Data文件夹是否建立，它不会默认建立新的文件夹，需手动添加
