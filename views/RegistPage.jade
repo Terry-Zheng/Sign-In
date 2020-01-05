@@ -1,4 +1,8 @@
 extends layout
+block attachment
+  link(rel="stylesheet" type="text/css" href="stylesheets/RegistPage.css")
+  script(src="javascripts/validator.js" type="text/javascript")
+  script(src="javascripts/Client_Regist.js" type="text/javascript")
 
 block content
   h1 Register System
@@ -34,14 +38,12 @@ block content
         span.info-name 邮箱:
         input(name="useremail" value=user.useremail)
         span.status
-    
+
+      if error
+        #error-bar
+          span !{error}    
+
     #action
       input.button.reset(id="clear" type="reset" value="清除")
       input.button.submit(id="submit" type="submit" value="注册")
-    
-    if error
-      #error-bar
-        span !{error}
-
-  script(src="javascripts/validator.js" type="text/javascript")
-  script(src="javascripts/SignUp.js" type="text/javascript")
+      a.switch(href='/login') 登录

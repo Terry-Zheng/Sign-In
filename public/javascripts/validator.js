@@ -63,6 +63,17 @@ var validator = {
   getErrorMessage: function(infoName){
     return this.form[infoName].errMsg;
   },
+  getAllErrorMessage: function(user){
+    var errMsg = [];
+
+    for (var info in user) {
+      if (!validator.checkInfoFormat(info, user[info])) {
+        errMsg.push(validator.getErrorMessage(info));
+      }
+    }
+    if (errMsg.length > 0) throw new Error(errMsg.join('<br/>'));
+    else return null;
+  },
 
   checkAttrValueUnique: function(registUsers, testUser, infoName){
     for (var tmpUserName in registUsers) {

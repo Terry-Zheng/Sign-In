@@ -1,5 +1,8 @@
 extends layout
 
+block attachment
+  link(rel="stylesheet" type="text/css" href="stylesheets/DetailPage.css")
+
 block content
   h1 Register System
   form(method="POST" id="Register-box")
@@ -20,3 +23,7 @@ block content
       div
         span.info-name 邮箱:
         input(name="useremail" value="#{user.useremail}" disabled)
+      
+      if error
+        #error-bar !{error} 
+    a#quit(href='/logout') 退出

@@ -1,0 +1,29 @@
+extends layout
+
+block attachment
+  link(rel="stylesheet" type="text/css" href="stylesheets/LoginPage.css")
+
+block content
+  h1 Register System
+  form(method="POST" id="Register-box")
+    h2 用户注册
+    #input-bar
+      div#username
+        span.info-name 用户名:
+        input(name="username" value=user.username)
+        span.status
+      
+      div#userpassword
+        span.info-name 密码:
+        input(type="password" name="userpassword" value=user.userpassword)
+        span.status
+
+      if error
+        #error-bar
+          span !{error}    
+          
+    #action
+      input.button.reset(id="clear" type="reset" value="清除")
+      input.button.submit(id="submit" type="submit" value="登录")
+      a.switch(href='/regist') 注册
+    

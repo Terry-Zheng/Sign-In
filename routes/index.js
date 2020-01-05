@@ -1,48 +1,93 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var validator = require('../public/javascripts/validator');
+var debug = require("debug")("signin:index");
+var queryString = require('querystring');
 
-var registed_Users = {};
+module.exports = function(db){
+  // var registed_Users = db.collection("users");
+  // debug("users collection setup as: ", registed_Users);
+  var userManager = require("../models/user")(db);
 
-/* RegistPage routes. */
-router.get('/regist', function(req, res, next) {
-  res.render('RegistPage', {title: '注册', user:{}});
-});
+  // router.get("/", function(req, res, next) {
+  //   var data = queryString.parse(str)
+  // });
 
-router.post('/regist', function(req, res, next) {
-  var newUser = req.body;
-  // console.log(newUser);
-  try {
-    checkUser(newUser);
-    req.session.user = registed_Users[newUser["username"]] = newUser;
-    res.redirect('/detail');
-  } catch (err) {
-    res.render('RegistPage', {title: '注册', user: newUser, error: err.message})
-  }
-});
+  /* LoginPage routes. */
+  router.get("/login", function(req, res, next) {
+    // debug("-------------------------------------------------------");
+    res.render("LoginPage", {title: "登录", user:{}});
+  });
+  
+  router.post("/login", function(req, res, next) {
+    // debug("-------------------------------------------------------");
+    userManager.findUser(req.body.username, req.body.userpassword)
+                .then(function(user){
+                  if (user == null) return Promise.reject("用户名或密码错误")
+                  // debug("current return user from findUser is: ", user);
+                  if (req.session.user) {
+                    // debug("old req.session.user is:", req.session.user.username);
+                    delete req.session.user;
+                    req.session.user ? debug("delete error") : debug("delete successfully");
+                  }
+                  req.session.user = user;
+                  debug("current session.user is:", req.session.user);
+                  res.redirect("/detail");
+                }).catch(function(error){
+                  res.render("LoginPage", {title: "登录", user: {username: req.body.username}, error: "用户名或密码错误"});
+                });
+  });
 
-router.all('*', function(req, res, next){
-  req.session.user ? next() : res.redirect('/login');
-});
+  router.get("/logout", function(req, res, next){
+    // debug("-------------------------------------------------------");
+    delete req.session.user;
+    res.redirect("/login");
+  });
 
-/* DetailPage routes. */
-router.get('/detail', function(req, res, next) {
-  res.render('DetailPage', {title: '详情', user: req.session.user});
-});
+  /* RegistPage routes. */
+  router.get("/regist", function(req, res, next) {
+    // debug("-------------------------------------------------------");
+    res.render("RegistPage", {title: "注册", user:{}});
+  });
+  
+  router.post("/regist", function(req, res, next) {
+    // debug("-------------------------------------------------------");
+    var newUser = req.body;
+    // debug("user is: ", newUser.username);
+    userManager.checkUser(newUser)
+               .then(userManager.createUser)
+               .then(function(newUser){
+                //  debug("create new user: ", newUser.username, "successfully!");
+                 if (req.session.user) {
+                  //  debug("old req.session.user is:", req.session.user.username);
+                   delete req.session.user;
+                   req.session.user ? debug("delete error") : debug("delete successfully");
+                 }
+                 req.session.user = newUser;
+                //  debug("current req.session.user is:", req.session.user.username);
+                 res.redirect("/detail");
+               }).catch(function(err){
+                 res.render("RegistPage", {title: "注册", user: newUser, error: "The input user is not unique!"})
+               });
+  });  
 
-module.exports = router;
+  // Routes below is protected by the login checker
+  /* DetailPage routes. */
+  router.get("/detail", function(req, res, next) {
+    // debug("-------------------------------------------------------");
+    // debug("current session.user is:", req.session.user);
+    res.render("DetailPage", {title: "详情", user: req.session.user});
+  });
+  
+  router.all("*", function(req, res, next){
+    // debug("-------------------------------------------------------");
+    // debug("current req.url is: ", req.url);
+    // debug("current req.body is: ", req.body);
+    if (req.session.user) {
+      next();
+    } else {
+      res.redirect("/login");
+    }
+  });
 
-// Check user validation
-function checkUser(user){
-  var errMsg = [];
-
-  for (var info in user) {
-    if (!validator.checkInfoFormat(info, user[info]))
-      errMsg.push(validator.getErrorMessage(info));
-    if (info == "userpassword" || info == "userrepeat") continue;
-    if (!validator.checkAttrValueUnique(registed_Users, user, info))
-      errMsg.push("This " + info + " has been used, please input another " + info);
-  }
-
-  if (errMsg.length > 0) throw new Error(errMsg.join('<br/>'));
-}
+  return router;
+};
