@@ -45,6 +45,7 @@ Web作业11 Sign In
     1. 一种是在Google浏览器中打开cmd命令下面"Debugger listening on ws://"后面的网址后按F12,点击出现的绿色六边形(如下图)
 
     ![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
+    
     2. 另一种是打开Google浏览器，打开网址[chrome://inspect/#devices](chrome://inspect/#devices) ，等待一会后点击www下方的inspect(如下图)
 
     ![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
