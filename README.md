@@ -32,14 +32,14 @@ Web作业11 Sign In
     -   node-inspect: v1.11.6 (用于nodejs程序的调试)
 	- 	**mongodb: v3.4.1 (数据库的存储，注意不同版本可能会有些命令不兼容)**
 	
-2. 另外，老师在视频里讲解的一些模块由于我的电脑配置原因无法安装,比如
+1. 另外，老师在视频里讲解的一些模块由于我的电脑配置原因无法安装,比如
 	- 	bcrypt(因此另选了bcryptjs)
 	- 	node-inspector(该工具可用于调试代码)
 	
 1. 启动：使用cmd（非PowerShell）打开到signin文件夹路径下，使用下列命令启动服务器后利用浏览器打开网址[http://localhost:8000](http://localhost:8000)，即可启动应用
-`````bash
-SET DEBUG=signin:* & npm start
-`````
+    `````bash
+    SET DEBUG=signin:* & npm start
+    `````
 1. 调试: 老师视频中所说的node-inspector因为电脑配置原因无法使用，因此添加了node-inspector包，具体调试方法与视频类似，应在signin文件夹下运行命令````` node --inspect-brk bin\www app.js routes\index.js models\user.js `````，然后打开调试器后再打开网址进行调试
     在网上搜索发现有两种打开调试器的方式：
     1. 一种是在Google浏览器中打开cmd命令下面"Debugger listening on ws://"后面的网址后按F12,点击出现的绿色六边形(如下图)
