@@ -48,12 +48,12 @@ SET DEBUG=signin:* & npm start
 node --inspect-brk bin\www app.js routes\index.js models\user.js
 `````
 在网上搜索发现有两种打开调试器的方式：
-	1. 一种是在Google浏览器中打开cmd命令下面省略号处对应的网址，
-	```bash
-	Debugger listening on ws://………………………………………………
-	```
-	然后按F12,点击出现的绿色六边形（如下图），
-	![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
-	2. 然后再打开Google浏览器，打开网址[chrome://inspect/#devices](chrome://inspect/#devices) ，等待一会后点击www下方的inspect(如下图)
-	![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
+    1. 一种是在Google浏览器中打开cmd命令下面省略号处对应的网址，
+    ```bash
+    Debugger listening on ws://………………………………………………
+    ```
+    然后按F12,点击出现的绿色六边形（如下图），
+    ![Image text](https://raw.githubusercontent.com/Terry-Zheng/Sign-In/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE2.jpg)
+    2. 然后再打开Google浏览器，打开网址[chrome://inspect/#devices](chrome://inspect/#devices) ，等待一会后点击www下方的inspect(如下图)
+    ![Image text](https://github.com/Terry-Zheng/Sign-In/blob/master/public/images/%E5%A4%87%E6%B3%A8%E5%9B%BE1.jpg)
 5. 注意：mongodb可能无法正常启动，应注意mongodb的Data文件夹是否建立，它不会默认建立新的文件夹，需手动添加
