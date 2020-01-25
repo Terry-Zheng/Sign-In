@@ -12,7 +12,6 @@ module.exports = function(db){
       // debug("The user to be search in the database is: ", username, "[", userpassword, "]");
       return users.findOne({username: username})
                   .then(function(user){
-                    // debug("findUser...");
                     return user ? bcrypt.compare(userpassword, user.userpassword)
                                         .then(function(result){
                                           return result ? user : null;
@@ -22,16 +21,15 @@ module.exports = function(db){
     },
 
     createUser: function(newUser){
-      debug("newUser is : ", newUser);
+      // debug("the newUser to be created is:\n", newUser);
       newUser = __.omit(newUser, 'userrepeat');
       var salt = 10;
-      // debug("attempting to create a new user:\n", newUser);
       return bcrypt.hash(newUser.userpassword, salt)
-                   .then(function(hash){
-                     debug("hash successfully!");
-                     newUser.userpassword = hash;
-                     return users.insertOne(newUser);
-                   });
+                    .then(function(hash){
+                      // debug("hash successfully!");
+                      newUser.userpassword = hash;
+                      return users.insertOne(newUser);
+                    });
     },
 
     checkUser: function(user){
@@ -41,12 +39,7 @@ module.exports = function(db){
                         }).then(function(user){
                           return users.findOne(getQuery(user))
                                       .then(function(duplicatedUser){
-                                        if (duplicatedUser) {
-                                          // debug("duplicateUser is: ", duplicatedUser);
-                                          return Promise.reject("user isn't unique!")
-                                        } else {
-                                          return Promise.resolve(user);
-                                        }
+                                        return duplicatedUser ? Promise.reject("user isn't unique!") : Promise.resolve(user);
                                       })
                         })
       }

@@ -1,7 +1,7 @@
 $(function(){
   // The operation when the input text box is blur
   $("#input-bar input").blur(function(){
-    console.log(this.name, "is blur!");
+    // console.log(this.name, "is blur!");
     if (validator.checkInfoFormat(this.name, $(this).val())){
       $(this).parent().find("span.status").text('').hide();
     } else {

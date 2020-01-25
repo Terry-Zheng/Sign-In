@@ -30,17 +30,19 @@ module.exports = function(db){
   router.post("/login", function(req, res, next) {
     userManager.findUser(req.body.username, req.body.userpassword)
                 .then(function(user){
-                  if (user == null) return Promise.reject("错误的用户名或者密码”")
+                  if (user == null) return Promise.reject("错误的用户名或者密码")
                   req.session.user = user;
-                  // debug("current session.user is:", req.session.user);
-                  res.redirect("/detail");
-                }).catch(function(error){
-                  res.render("LoginPage", {title: "登录", user: {username: req.body.username}, error: "错误的用户名或者密码”"});
+                  // debug("current login session.user is:", req.session.user);
+                  res.end();
+                  res.redirect(301, "/detail");
+                }).catch(function(err){
+                  res.render("LoginPage", {title: "登录", user: {username: req.body.username}, error: err});
                 });
   });
 
   router.get("/logout", function(req, res, next){
     delete req.session.user;
+    res.end();
     res.redirect("/login");
   });
 
@@ -52,25 +54,32 @@ module.exports = function(db){
   router.post("/regist", function(req, res, next) {
     var newUser = req.body;
     userManager.checkUser(newUser)
-               .then(userManager.createUser)
-               .then(function(newUser){
-                 req.session.user = newUser;
-                //  debug("current request.session is: ", req.session);
-                 res.redirect("/detail");
-               }).catch(function(err){
-                 debug("Failed to create a new user, turn back to render registPage");
-                 res.render("RegistPage", {title: "注册", user: newUser, error: "The input user is not unique!"})
-               });
+                .then(userManager.createUser)
+                .then(function(){
+                  // debug("current newUser is: \n", newUser);
+                  req.session.user = newUser;
+                  // debug("current request.session is: ", req.session);
+                  res.end(); 
+                  res.redirect(301, "/detail");
+                }).catch(function(err){
+                  debug("Failed to create a new user, turn back to render registPage");
+                  res.render("RegistPage", {title: "注册", user: newUser, error: err})
+                });
   });  
 
   // Routes below is protected by the login checker
   /* DetailPage routes. */
   router.get("/detail", function(req, res, next) {
-    // debug("current request.session is: ", req.session);
+    // debug("current detail request.session is: ", req.session);
     res.render("DetailPage", {title: "详情", user: req.session.user});
   });
   
   router.all("*", function(req, res, next){
+    res.setHeader('Access-Control-Allow-Origin','*');
+	  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');  
+    res.setHeader("Content-Type", "application/json;charset=utf-8");
+
     if (req.session.user) {
       next();
     } else {
