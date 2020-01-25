@@ -48,6 +48,7 @@ SET DEBUG=signin:* & npm start
 node --inspect-brk bin\www app.js routes\index.js models\user.js
 `````
 在网上搜索发现有两种打开调试器的方式：
+
     1. 一种是在Google浏览器中打开cmd命令下面省略号处对应的网址，
     ```bash
     Debugger listening on ws://………………………………………………
